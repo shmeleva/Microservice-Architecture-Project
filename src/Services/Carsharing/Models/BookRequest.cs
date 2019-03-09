@@ -1,10 +1,8 @@
 ﻿using System;
 namespace Carsharing.Models
 {
-    public class BookingRequest
+    public class BookRequest
     {
-        public BookingRequest()
-        {
-        }
+        public Guid CarId { get; set; }
     }
 }

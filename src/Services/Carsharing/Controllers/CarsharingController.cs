@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Carsharing.Controllers
 {
     [Route("api/v1/[controller]")]
-    public class CarsharingController : Controller
+    public class CarsharingController : ControllerBase
     {
         // GET: api/v1/carsharing/cars?latitude={double}&longitude={double}&address={string}&radius={double}
         [HttpGet]
@@ -24,9 +24,21 @@ namespace Carsharing.Controllers
             [FromQuery] string address = null,
             [FromQuery] double radius = 0)
         {
-
-
-            throw new NotImplementedException();
+            return new List<Car>
+            {
+                new Car
+                {
+                    Id = Guid.NewGuid(),
+                    Latitude = 1,
+                    Longitude = 1
+                },
+                new Car
+                {
+                    Id = Guid.NewGuid(),
+                    Latitude = 1,
+                    Longitude = 1
+                }
+            };
         }
         
         // POST api/v1/book
