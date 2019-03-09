@@ -1,0 +1,36 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity", "src\Services\Identity\Identity.csproj", "{6AEA1E04-7FBB-40A4-972A-0DC37B4024E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geocoding", "src\Services\Geocoding\Geocoding.csproj", "{8FF381F0-BEE3-4A89-BCA7-ECAB82022586}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carsharing", "src\Services\Carsharing\Carsharing.csproj", "{8B10EB8C-5956-41B5-B2A9-D9C405FE3537}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{87EA241D-8C10-4C91-AA0D-3F97FD2FBA69}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6AEA1E04-7FBB-40A4-972A-0DC37B4024E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AEA1E04-7FBB-40A4-972A-0DC37B4024E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AEA1E04-7FBB-40A4-972A-0DC37B4024E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AEA1E04-7FBB-40A4-972A-0DC37B4024E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FF381F0-BEE3-4A89-BCA7-ECAB82022586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FF381F0-BEE3-4A89-BCA7-ECAB82022586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FF381F0-BEE3-4A89-BCA7-ECAB82022586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FF381F0-BEE3-4A89-BCA7-ECAB82022586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B10EB8C-5956-41B5-B2A9-D9C405FE3537}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B10EB8C-5956-41B5-B2A9-D9C405FE3537}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B10EB8C-5956-41B5-B2A9-D9C405FE3537}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B10EB8C-5956-41B5-B2A9-D9C405FE3537}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal
