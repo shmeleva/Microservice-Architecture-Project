@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Carsharing.Models;
+using Carsharing.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,32 +14,39 @@ namespace Carsharing.Controllers
     [Route("api/v1/[controller]")]
     public class CarsharingController : ControllerBase
     {
+        private readonly IStorageService _storageService;
+        private readonly IIdentityService _identityService;
+        private readonly IGeocodingService _geocodingService;
+
+
+        public CarsharingController(
+            IStorageService storageService,
+            IIdentityService identityService,
+            IGeocodingService geocodingService)
+        {
+            _storageService = storageService;
+            _identityService = identityService;
+            _geocodingService = geocodingService;
+        }
+
+
         // GET: api/v1/carsharing/cars?latitude={double}&longitude={double}&address={string}&radius={double}
         [HttpGet]
         [Route("cars")]
         [ProducesResponseType(typeof(IEnumerable<Car>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IEnumerable<Car>> GetAsync(
-            [FromQuery] double latitude = 0,
-            [FromQuery] double longitude = 0,
-            [FromQuery] string address = null,
-            [FromQuery] double radius = 0)
+        public async Task<ActionResult<Car>> GetAsync(
+            [FromQuery]double? latitude = null,
+            [FromQuery]double? longitude = null,
+            [FromQuery]double radius = 500)
         {
-            return new List<Car>
+            if (latitude == null || longitude == null)
             {
-                new Car
-                {
-                    Id = Guid.NewGuid(),
-                    Latitude = 1,
-                    Longitude = 1
-                },
-                new Car
-                {
-                    Id = Guid.NewGuid(),
-                    Latitude = 1,
-                    Longitude = 1
-                }
-            };
+                return BadRequest();
+            }
+
+            var cars = await _storageService.GetAvailableCarsAsync(latitude.Value, longitude.Value, radius);
+            return Ok(cars);
         }
         
         // POST api/v1/book
@@ -48,7 +56,7 @@ namespace Carsharing.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<BookResult> BookAsync([FromBody]BookRequest request)
+        public async Task<ActionResult<BookResult>> BookAsync([FromBody]BookRequest request)
         {
             throw new NotImplementedException();
         }
@@ -60,7 +68,7 @@ namespace Carsharing.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public Task<ReturnResult> ReturnAsync([FromBody]ReturnRequest request)
+        public Task<ActionResult<ReturnResult>> ReturnAsync([FromBody]ReturnRequest request)
         {
             throw new NotImplementedException();
         }
