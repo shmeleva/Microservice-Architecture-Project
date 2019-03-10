@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  carsharing:
+    image: ${DOCKER_REGISTRY-}carsharing
+    build:
+      context: .
+      dockerfile: src/Services/Carsharing/Dockerfile
+
+  geocoding:
+    image: ${DOCKER_REGISTRY-}geocoding
+    build:
+      context: .
+      dockerfile: src/Services/Geocoding/Dockerfile
+
+
+  identity:
+    image: ${DOCKER_REGISTRY-}identity
+    build:
+      context: .
+      dockerfile: src/Services/Identity/Dockerfile
+

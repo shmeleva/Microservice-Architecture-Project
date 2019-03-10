@@ -27,9 +27,8 @@ namespace Carsharing
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IStorageService, StorageService>();
-            services.AddSingleton<IIdentityService, IdentityService>();
-            services.AddSingleton<IGeocodingService, GeocodingService>();
+            services.AddTransient<IStorageService, StorageService>();
+            services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

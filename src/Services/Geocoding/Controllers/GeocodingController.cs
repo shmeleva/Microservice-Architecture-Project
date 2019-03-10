@@ -18,7 +18,7 @@ namespace Geocoding.Controllers
         [Route("coordinates")]
         [ProducesResponseType(typeof((double latitude, double longitude)), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<(double latitude, double longitude)>> GetCoordinatesAsync([FromQuery]string address = null)
+        public async Task<ActionResult<(double Latitude, double Longitude)>> GetCoordinatesAsync([FromQuery]string address = null)
         {
             if (string.IsNullOrEmpty(address))
             {

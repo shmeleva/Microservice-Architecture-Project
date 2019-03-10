@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Carsharing.Models;
 using Carsharing.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,17 +17,14 @@ namespace Carsharing.Controllers
     {
         private readonly IStorageService _storageService;
         private readonly IIdentityService _identityService;
-        private readonly IGeocodingService _geocodingService;
 
 
         public CarsharingController(
             IStorageService storageService,
-            IIdentityService identityService,
-            IGeocodingService geocodingService)
+            IIdentityService identityService)
         {
             _storageService = storageService;
             _identityService = identityService;
-            _geocodingService = geocodingService;
         }
 
 
@@ -35,7 +33,7 @@ namespace Carsharing.Controllers
         [Route("cars")]
         [ProducesResponseType(typeof(IEnumerable<Car>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<Car>> GetAsync(
+        public async Task<ActionResult<Car>> GetAvailableCarsAsync(
             [FromQuery]double? latitude = null,
             [FromQuery]double? longitude = null,
             [FromQuery]double radius = 500)
@@ -48,27 +46,27 @@ namespace Carsharing.Controllers
             var cars = await _storageService.GetAvailableCarsAsync(latitude.Value, longitude.Value, radius);
             return Ok(cars);
         }
-        
-        // POST api/v1/book
+
+        // POST api/v1/carsharing/book
         [HttpPost]
         [Route("book")]
         [ProducesResponseType(typeof(BookResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<BookResult>> BookAsync([FromBody]BookRequest request)
+        public async Task<ActionResult<BookResult>> BookCarAsync([FromBody]BookRequest request)
         {
             throw new NotImplementedException();
         }
 
-        // POST api/v1/return
+        // POST api/v1/carsharing/return
         [HttpPost]
         [Route("return")]
         [ProducesResponseType(typeof(BookResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public Task<ActionResult<ReturnResult>> ReturnAsync([FromBody]ReturnRequest request)
+        public Task<ActionResult<ReturnResult>> ReturnCarAsync([FromBody]ReturnRequest request)
         {
             throw new NotImplementedException();
         }
