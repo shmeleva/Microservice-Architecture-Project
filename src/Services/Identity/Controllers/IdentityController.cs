@@ -12,18 +12,12 @@ namespace Identity.Controllers
     [Route("api/v1/[controller]")]
     public class IdentityController : ControllerBase
     {
-        public async Task<ActionResult> RegisterAsync()
+        public async Task<ActionResult> CreateIdentityAsync()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ActionResult> LoginAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Authorize]
-        public async Task<ActionResult> LogoutAsync()
+        public async Task<ActionResult> GetJwtAsync()
         {
             throw new NotImplementedException();
         }
