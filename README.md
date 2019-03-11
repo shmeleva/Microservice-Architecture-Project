@@ -12,7 +12,7 @@
 
 | Method                                 | Description |
 | --------------------------------------- | -------------|
-| <code>POST&nbsp;api/{v1&#124;v2}/identity/create</code>     | Creates user with the specified username and password. Accepts JSON. |
+| <code>POST&nbsp;api/{v1&#124;v2}/identity/create</code>     | Creates a user with the specified username and password. Accepts JSON. |
 | <code>GET&nbsp;api/{v1&#124;v2}/identity/jwt</code> <br><br> **Query parameters:** <br> `username`: `string`, required <br> `password`: `string`, required | Issues a JWT for the specified user. |
 
 #### References
