@@ -62,6 +62,7 @@ Stateless.
 * [Steeltoe – Service Discovery](https://steeltoe.io/docs/steeltoe-discovery/)
 * [Consul](https://www.consul.io/)
 * [Auth0 – An Introduction to Microservices, Part 3: The Service Registry](https://auth0.com/blog/an-introduction-to-microservices-part-3-the-service-registry/)
+* [Airbnb – Synapse](https://github.com/airbnb/synapse)
 
 
 ### Versioning
