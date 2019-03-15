@@ -1,7 +1,5 @@
 ## I. Service Architecture
 
-### 0. General Architecture
-
 | Service                                 | Description |
 | --------------------------------------- | -------------|
 | [Identity](./src/Services/Identity)     | Issues JWT tokens. Stores users in an SQL database. |
