@@ -28,7 +28,7 @@ namespace Carsharing.Controllers
         }
 
 
-        // GET: api/v1/carsharing/cars?latitude={double}&longitude={double}&address={string}&radius={double}
+        // GET: api/v1/carsharing/cars?latitude={double}&longitude={double}&radius={double}
         [HttpGet]
         [Route("cars")]
         [ProducesResponseType(typeof(IEnumerable<Car>), (int)HttpStatusCode.OK)]

@@ -1,6 +1,6 @@
-## Service Architecture
+## I. Service Architecture
 
-### Services
+### 0. General Architecture
 
 | Service                                 | Description |
 | --------------------------------------- | -------------|
@@ -8,34 +8,7 @@
 | [Carsharing](./src/Services/Carsharing) | Provides methods for searching, booking and returning cars. Stores cars in an SQL database. Requires JWT authentication. *Does not provide methods for creating or removing cars from the database, i.e., cars simply exist. Does not have any payment mechanism, i.e., cars are free.* |
 | [Geocoding](./src/Services/Geocoding)   | Provides methods for converting an address to coordinates and vice versa. |
 
-#### Identity Service
-
-| Method                                 | Description |
-| --------------------------------------- | -------------|
-| <code>POST&nbsp;api/{v1&#124;v2}/identity/create</code>     | Creates a user with the specified username and password. Accepts JSON. |
-| <code>GET&nbsp;api/{v1&#124;v2}/identity/jwt</code> <br><br> **Query parameters:** <br> `username`: `string`, required <br> `password`: `string`, required | Issues a JWT for the specified user. |
-
-#### References
-
-* [Make secure .NET Microservices and Web Applications](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/secure-net-microservices-web-applications/)
-
-#### Carsharing
-
-| Method                                 | Description |
-| --------------------------------------- | -------------|
-| <code>GET&nbsp;api/{v1&#124;v2}/carsharing/cars</code> <br><br> **Query parameters:** <br> `latitude`: `double`, required <br> `longitude`: `double`, required <br> `radius`: `double`, required    | Searches for available cars in the specified area. Caches search results. |
-| <code>POST&nbsp;api/{v1&#124;v2}/carsharing/book</code> | Books a car with the specified `Id`. Accepts JSON. |
-| <code>POST&nbsp;api/{v1&#124;v2}/carsharing/return</code> | Marks a car with the specified `Id` as available and updates its location. Accepts JSON. |
-
-#### Geocoding
-
-Stateless.
-
-*More to be added.*
-
-### Big Picture
-
-*More to be added.*
+*More (= architecture visualization) to be added...*
 
 #### References
 * [Microsoft – Designing a microservice-oriented application](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/multi-container-microservice-net-applications/microservice-application-design)
@@ -47,9 +20,34 @@ Stateless.
 * [Building Microservices with ASP.NET Core by Kevin Hoffman – Chapter 8. Service Discovery](https://www.oreilly.com/library/view/building-microservices-with/9781491961728/ch08.html)\*
 * [GoogleCloudPlatform – Hipster Shop: Cloud-Native Microservices Demo Application](https://github.com/GoogleCloudPlatform/microservices-demo)
 
-## Aspects
+#### 1. Identity Service
 
-### Service Discovery
+| Method                                 | Description |
+| --------------------------------------- | -------------|
+| <code>POST&nbsp;api/{v1&#124;v2}/identity/create</code>     | Creates a user with the specified username and password. Accepts JSON. |
+| <code>GET&nbsp;api/{v1&#124;v2}/identity/jwt</code> <br><br> **Query parameters:** <br> `username`: `string`, required <br> `password`: `string`, required | Issues a JWT for the specified user. |
+
+#### References
+
+* [Make secure .NET Microservices and Web Applications](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/secure-net-microservices-web-applications/)
+
+#### 2. Carsharing
+
+| Method                                 | Description |
+| --------------------------------------- | -------------|
+| <code>GET&nbsp;api/{v1&#124;v2}/carsharing/cars</code> <br><br> **Query parameters:** <br> `latitude`: `double`, required <br> `longitude`: `double`, required <br> `radius`: `double`, required    | Searches for available cars in the specified area. Caches search results. |
+| <code>POST&nbsp;api/{v1&#124;v2}/carsharing/book</code> | Books a car with the specified `Id`. Accepts JSON. |
+| <code>POST&nbsp;api/{v1&#124;v2}/carsharing/return</code> | Marks a car with the specified `Id` as available and updates its location. Accepts JSON. |
+
+#### 3. Geocoding
+
+Stateless.
+
+*More to be added.*
+
+## II. Aspects (Likely)
+
+### 1. Service Discovery
 
 ![NGINX – Service Discovery in a Microservices Architecture](https://www.nginx.com/wp-content/uploads/2016/04/Richardson-microservices-part4-3_server-side-pattern.png)
 [Image Credit](https://www.nginx.com/blog/service-discovery-in-a-microservices-architecture/)
@@ -64,15 +62,20 @@ Stateless.
 * [Auth0 – An Introduction to Microservices, Part 3: The Service Registry](https://auth0.com/blog/an-introduction-to-microservices-part-3-the-service-registry/)
 * [Airbnb – Synapse](https://github.com/airbnb/synapse)
 
-
-### Versioning
+### 2. Versioning
 
 *To be added.*
 
 #### References
 * [Microsoft – Implementing versioning in ASP.NET Web APIs](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/multi-container-microservice-net-applications/data-driven-crud-microservice#implementing-versioning-in-aspnet-web-apis)
 
-### Caching
+### 3. Dynamic Configuration
+
+*To be added.*
+
+## III. Aspects (Possible)
+
+### 1. Caching
 
 *To be added.*
 
@@ -80,7 +83,7 @@ Stateless.
 * ["Caching at Netflix: The Hidden Microservice" by Scott Mansfield](https://www.youtube.com/watch?v=Rzdxgx3RC0Q)
 * [Distributed caching in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/distributed?view=aspnetcore-2.2)
 
-### A/B Testing
+### 2. A/B Testing
 
 #### References
 * [Testing Microservices, the sane way](https://medium.com/@copyconstruct/testing-microservices-the-sane-way-9bb31d158c16)
