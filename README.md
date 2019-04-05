@@ -43,14 +43,14 @@ Stateless.
 
 *More to be added.*
 
-## II. Aspects (Likely)
+## II. Aspects
 
 ### 1. Service Discovery
 
 ![NGINX – Service Discovery in a Microservices Architecture](https://www.nginx.com/wp-content/uploads/2016/04/Richardson-microservices-part4-3_server-side-pattern.png)
 [Image Credit](https://www.nginx.com/blog/service-discovery-in-a-microservices-architecture/)
 
-*More to be added.*
+Consul.
 
 #### References
 * [NGINX – Service Discovery in a Microservices Architecture](https://www.nginx.com/blog/service-discovery-in-a-microservices-architecture/)
@@ -69,20 +69,4 @@ Stateless.
 
 ### 3. Dynamic Configuration
 
-*To be added.*
-
-## III. Aspects (Possible)
-
-### 1. Caching
-
-*To be added.*
-
-#### References
-* ["Caching at Netflix: The Hidden Microservice" by Scott Mansfield](https://www.youtube.com/watch?v=Rzdxgx3RC0Q)
-* [Distributed caching in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/distributed?view=aspnetcore-2.2)
-
-### 2. A/B Testing
-
-#### References
-* [Testing Microservices, the sane way](https://medium.com/@copyconstruct/testing-microservices-the-sane-way-9bb31d158c16)
-* [It’s All A/Bout Testing: The Netflix Experimentation Platform](https://medium.com/netflix-techblog/its-all-a-bout-testing-the-netflix-experimentation-platform-4e1ca458c15)
+Consul.
