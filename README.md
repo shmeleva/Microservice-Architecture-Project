@@ -60,13 +60,10 @@ Consul.
 * [Auth0 – An Introduction to Microservices, Part 3: The Service Registry](https://auth0.com/blog/an-introduction-to-microservices-part-3-the-service-registry/)
 * [Airbnb – Synapse](https://github.com/airbnb/synapse)
 
-### 2. Versioning
-
-*To be added.*
-
-#### References
-* [Microsoft – Implementing versioning in ASP.NET Web APIs](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/multi-container-microservice-net-applications/data-driven-crud-microservice#implementing-versioning-in-aspnet-web-apis)
-
-### 3. Dynamic Configuration
+### 2. Dynamic Configuration
 
 Consul.
+
+### 3. Caching
+
+A sidecar between
