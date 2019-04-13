@@ -25,13 +25,12 @@ namespace Geocoding.Extensions
             {
                 ID = $"Geocoding-{Guid.NewGuid()}",
                 Name = "Geocoding",
-                Address = $"http://{ip}",
+                Address = $"{ip}",
                 Port = 80
             };
 
             using (var consulClient = app.ApplicationServices.GetRequiredService<IConsulClient>())
             {
-                // TODO: F*ck Wait();
                 consulClient.Agent.ServiceRegister(serviceRegistration).Wait();
                 lifetime.ApplicationStopping.Register(() => consulClient.Agent.ServiceDeregister(serviceRegistration.ID).Wait());
             }

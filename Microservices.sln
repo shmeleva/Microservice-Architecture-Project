@@ -15,6 +15,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geocoding", "src\Services\Geocoding\Geocoding.csproj", "{B5B9AF4F-D5DF-43EF-8D3C-98441C7882E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "src\ApiGateway\ApiGateway.csproj", "{F11B54A8-799A-4DE5-A6F6-1F586F545B63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{B5B9AF4F-D5DF-43EF-8D3C-98441C7882E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5B9AF4F-D5DF-43EF-8D3C-98441C7882E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5B9AF4F-D5DF-43EF-8D3C-98441C7882E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F11B54A8-799A-4DE5-A6F6-1F586F545B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F11B54A8-799A-4DE5-A6F6-1F586F545B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F11B54A8-799A-4DE5-A6F6-1F586F545B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F11B54A8-799A-4DE5-A6F6-1F586F545B63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

@@ -18,3 +18,12 @@ services:
     build:
       context: .
       dockerfile: src/Services/Identity/Dockerfile
+
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: src/ApiGateway/Dockerfile
+    ports:
+    - "127.0.0.1:4000:80"
+
