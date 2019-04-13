@@ -36,12 +36,14 @@ namespace Carsharing.Controllers
         public async Task<ActionResult<Car>> GetAvailableCarsAsync(
             [FromQuery, Required]double? latitude = null,
             [FromQuery, Required]double? longitude = null,
-            [FromQuery, Required]double radius = 500)
+            [FromQuery]double radius = 500)
         {
-            if (latitude == null || longitude == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
+
+            var username = User.Identity.Name;
 
             //var cars = await _storageService.GetAvailableCarsAsync(latitude.Value, longitude.Value, radius);
             return Ok(new List<Car> { new Car { Id = Guid.NewGuid() } });
@@ -56,6 +58,11 @@ namespace Carsharing.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<BookResult>> BookCarAsync([FromBody]BookRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             throw new NotImplementedException();
         }
 
@@ -66,8 +73,13 @@ namespace Carsharing.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public Task<ActionResult<ReturnResult>> ReturnCarAsync([FromBody]ReturnRequest request)
+        public async Task<ActionResult<ReturnResult>> ReturnCarAsync([FromBody]ReturnRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             throw new NotImplementedException();
         }
     }

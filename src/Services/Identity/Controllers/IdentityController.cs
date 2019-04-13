@@ -29,6 +29,11 @@ namespace Identity.Controllers
             [FromQuery, Required]string username = null,
             [FromQuery, Required]string password = null)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             await identityService.CreateUserAsync(username, password);
             return Ok();
         }
@@ -42,6 +47,11 @@ namespace Identity.Controllers
             [FromQuery, Required]string username = null,
             [FromQuery, Required]string password = null)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return Ok(await identityService.IssueUserJwtAsync(username, password));
         }
     }
