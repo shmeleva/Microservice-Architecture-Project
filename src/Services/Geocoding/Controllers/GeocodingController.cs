@@ -28,6 +28,7 @@ namespace Geocoding.Controllers
         // GET: api/v1/geocode?address={string}
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetCoordinatesAsync([FromQuery, Required]string address = null)
         {
@@ -45,6 +46,7 @@ namespace Geocoding.Controllers
         [HttpGet]
         [Route("reverse")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAddressAsync(
             [FromQuery, Required]double? latitude = null,
