@@ -35,6 +35,7 @@ namespace Identity.Controllers
             }
 
             await identityService.CreateUserAsync(username, password);
+
             return Ok();
         }
 

@@ -43,10 +43,8 @@ namespace Carsharing.Controllers
                 return BadRequest(ModelState);
             }
 
-            var username = User.Identity.Name;
-
-            //var cars = await _storageService.GetAvailableCarsAsync(latitude.Value, longitude.Value, radius);
-            return Ok(new List<Car> { new Car { Id = Guid.NewGuid() } });
+            var cars = await _storageService.GetAvailableCarsAsync(latitude.Value, longitude.Value, radius);
+            return Ok(cars);
         }
 
         // POST api/v1/cars/book
@@ -62,6 +60,8 @@ namespace Carsharing.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            var username = User.Identity.Name;
 
             throw new NotImplementedException();
         }
@@ -79,6 +79,8 @@ namespace Carsharing.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            var username = User.Identity.Name;
 
             throw new NotImplementedException();
         }
