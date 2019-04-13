@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using Identity.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.Controllers
@@ -11,14 +10,27 @@ namespace Identity.Controllers
     [Route("api/v1/[controller]")]
     public class IdentityController : ControllerBase
     {
-        // POST: api/v1/identity/create
+        private readonly IIdentityService identityService;
+
+
+        public IdentityController(IIdentityService identityService)
+        {
+            this.identityService = identityService;
+        }
+
+
+        // POST: api/v1/identity/create?username={string}&password={string}
+        // TODO: Replace with a body
         [HttpPost]
         [Route("create")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> CreateIdentityAsync()
+        public async Task<ActionResult> SignUpAsync(
+            [FromQuery, Required]string username = null,
+            [FromQuery, Required]string password = null)
         {
-            throw new NotImplementedException();
+            await identityService.CreateUserAsync(username, password);
+            return Ok();
         }
 
         // GET: api/v1/identity/jwt?username={string}&password={string}
@@ -27,10 +39,10 @@ namespace Identity.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<string>> GetJwtAsync(
-            [FromQuery]string username = null,
-            [FromQuery]string password = null)
+            [FromQuery, Required]string username = null,
+            [FromQuery, Required]string password = null)
         {
-            throw new NotImplementedException();
+            return Ok(await identityService.IssueUserJwtAsync(username, password));
         }
     }
 }

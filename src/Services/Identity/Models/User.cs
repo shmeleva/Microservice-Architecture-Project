@@ -1,15 +1,16 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Identity.Models
 {
-    public class User : IdentityUser
+    public class User
     { 
         [Required]
-        public string FirstName { get; set; }
+        public string Username { get; set; }
 
         [Required]
-        public string LastName { get; set; }
+        public string Salt { get; set; }
+
+        [Required]
+        public string Hash { get; set; }
     }
 }

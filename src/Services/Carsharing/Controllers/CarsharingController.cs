@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using Carsharing.Models;
@@ -12,7 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Carsharing.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Authorize]
+    [Route("api/v1/cars")]
     public class CarsharingController : ControllerBase
     {
         private readonly IStorageService _storageService;
@@ -28,26 +29,25 @@ namespace Carsharing.Controllers
         }
 
 
-        // GET: api/v1/carsharing/cars?latitude={double}&longitude={double}&radius={double}
+        // GET: api/v1/cars?latitude={double}&longitude={double}&radius={double}
         [HttpGet]
-        [Route("cars")]
         [ProducesResponseType(typeof(IEnumerable<Car>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Car>> GetAvailableCarsAsync(
-            [FromQuery]double? latitude = null,
-            [FromQuery]double? longitude = null,
-            [FromQuery]double radius = 500)
+            [FromQuery, Required]double? latitude = null,
+            [FromQuery, Required]double? longitude = null,
+            [FromQuery, Required]double radius = 500)
         {
             if (latitude == null || longitude == null)
             {
                 return BadRequest();
             }
 
-            var cars = await _storageService.GetAvailableCarsAsync(latitude.Value, longitude.Value, radius);
-            return Ok(cars);
+            //var cars = await _storageService.GetAvailableCarsAsync(latitude.Value, longitude.Value, radius);
+            return Ok(new List<Car> { new Car { Id = Guid.NewGuid() } });
         }
 
-        // POST api/v1/carsharing/book
+        // POST api/v1/cars/book
         [HttpPost]
         [Route("book")]
         [ProducesResponseType(typeof(BookResult), (int)HttpStatusCode.OK)]
@@ -59,7 +59,7 @@ namespace Carsharing.Controllers
             throw new NotImplementedException();
         }
 
-        // POST api/v1/carsharing/return
+        // POST api/v1/cars/return
         [HttpPost]
         [Route("return")]
         [ProducesResponseType(typeof(BookResult), (int)HttpStatusCode.OK)]
