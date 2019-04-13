@@ -9,6 +9,8 @@
     <Folder Include="wwwroot\" />
     <Folder Include="Services\" />
     <Folder Include="Middleware\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>

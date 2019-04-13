@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Geocoding.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,8 +29,11 @@ namespace Geocoding
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IGeocodingService, HereGeocodingService>();
+
             services.AddDistributedRedisCache(options =>
             {
+                // TODO: Move to configuration.
                 options.Configuration = "localhost:6379";
             });
 

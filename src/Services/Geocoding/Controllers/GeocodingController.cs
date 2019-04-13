@@ -1,74 +1,86 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
+using Geocoding.Models;
+using Geocoding.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Newtonsoft.Json;
 
 namespace Geocoding.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/geocode")]
     public class GeocodingController : ControllerBase
     {
         private readonly IDistributedCache distributedCache;
+        private readonly IGeocodingService geocodingService;
 
-
-        public GeocodingController(IDistributedCache distributedCache)
+        public GeocodingController(
+            IDistributedCache distributedCache,
+            IGeocodingService geocodingService)
         {
             this.distributedCache = distributedCache;
+            this.geocodingService = geocodingService;
         }
 
 
-        // GET: api/v1/geocoding/coordinates?address={string}
+        // GET: api/v1/geocode?address={string}
         [HttpGet]
-        [Route("coordinates")]
-        [ProducesResponseType(typeof((double latitude, double longitude)), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<(double Latitude, double Longitude)>> GetCoordinatesAsync([FromQuery]string address = null)
+        public async Task<IActionResult> GetCoordinatesAsync([FromQuery, Required]string address = null)
         {
-            // Key: ByAddress_{address}
-
-            if (string.IsNullOrEmpty(address))
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
-            await distributedCache.SetAsync("333", new byte[] { });
+            return await GetFromCacheOrFetchAsync($"Geocoding_{address}",
+                async () => await geocodingService.GetLocationByAddressAsync(address));
 
-            await Task.Delay(0);
-
-            using (var httpClient = new HttpClient())
-            {
-                return Ok((new Random().Next(), new Random().Next()));
-            }
         }
 
-        // GET: api/v1/geocoding/address?latitude={double}&longitude={double}
+        // GET: api/v1/geocode/reverse?latitude={double}&longitude={double}
         [HttpGet]
-        [Route("address")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [Route("reverse")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        //[ResponseCache(Duration = 30)]
-        public async Task<ActionResult<string>> GetAddressAsync(
-            [FromQuery]double? latitude = null,
-            [FromQuery]double? longitude = null)
+        public async Task<IActionResult> GetAddressAsync(
+            [FromQuery, Required]double? latitude = null,
+            [FromQuery, Required]double? longitude = null)
         {
-            // Key: ByCoordinate_{address}
-
-            if (latitude == null || longitude == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
-            await Task.Delay(0);
+            return await GetFromCacheOrFetchAsync(
+                $"Geocoding_Reverse_{latitude},{longitude}",
+                async () => await geocodingService.GetLocationByCoordinatesAsync(latitude.Value, longitude.Value));
+        }
 
-            using (var httpClient = new HttpClient())
+        public async Task<IActionResult> GetFromCacheOrFetchAsync
+            (string key, Func<Task<Location>> fetchAsync)
+        {
+            var location = await distributedCache.GetStringAsync(key);
+            if (location != null)
             {
-                return Ok("");
+                return Ok(location);
+            }
+
+            try
+            {
+                location = JsonConvert.SerializeObject(await fetchAsync());
+                await distributedCache.SetStringAsync(key, location, new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(30),
+                });
+                return Ok(location);
+            }
+            catch
+            {
+                return NoContent();
             }
         }
     }
