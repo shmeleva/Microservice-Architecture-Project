@@ -38,7 +38,7 @@ namespace Geocoding
             {
                 options.Configuration = "host.docker.internal:6379";
             });
-
+            
             services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
             {
                 consulConfig.Address = new Uri("http://host.docker.internal:8500");
