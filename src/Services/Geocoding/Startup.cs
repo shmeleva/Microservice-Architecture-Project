@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Consul;
+using Geocoding.Extensions;
 using Geocoding.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,9 +36,13 @@ namespace Geocoding
 
             services.AddDistributedRedisCache(options =>
             {
-                // TODO: Move to configuration.
-                options.Configuration = "localhost:6379";
+                options.Configuration = "host.docker.internal:6379";
             });
+
+            services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
+            {
+                consulConfig.Address = new Uri("http://host.docker.internal:8500");
+            }));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -72,6 +78,8 @@ namespace Geocoding
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseConsulServiceDiscovery(lifetime);
         }
     }
 }

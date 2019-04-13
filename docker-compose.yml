@@ -18,4 +18,3 @@ services:
     build:
       context: .
       dockerfile: src/Services/Identity/Dockerfile
-
