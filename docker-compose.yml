@@ -12,7 +12,7 @@ services:
     - "48500:8500"
     
   mongo-carsharing:
-    image: mongo
+    image: mongo:latest
     container_name: mongo-carsharing
     restart: always
     environment:
@@ -23,7 +23,7 @@ services:
     - ./Databases/Carsharing:/docker-entrypoint-initdb.d
     
   mongo-identity:
-    image: mongo
+    image: mongo:latest
     container_name: mongo-identity
     restart: always
     environment:
@@ -34,6 +34,7 @@ services:
     - ./Databases/Identity:/docker-entrypoint-initdb.d 
     
   carsharing:
+    container_name: microservice-carsharing
     image: ${DOCKER_REGISTRY-}carsharing
     build:
       context: .
