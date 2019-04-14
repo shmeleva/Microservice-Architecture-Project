@@ -34,7 +34,21 @@ namespace Identity.Controllers
                 return BadRequest(ModelState);
             }
 
-            await identityService.CreateUserAsync(username, password);
+            try
+            {
+                await identityService.CreateUserAsync(username, password);
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest(new { Message = "I don't approve this username+password combination." });
+            }
+            catch
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new
+                {
+                    Message = "It's a 500 but we stll want you to join us! Please, try a bit later."
+                });
+            }
 
             return Ok();
         }
@@ -53,7 +67,18 @@ namespace Identity.Controllers
                 return BadRequest(ModelState);
             }
 
-            return Ok(await identityService.IssueUserJwtAsync(username, password));
+            try
+            {
+                return Ok(await identityService.IssueUserJwtAsync(username, password));
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest(new { Message = "I don't approve this username+password combination." });
+            }
+            catch
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = "Something went terribly wrong." });
+            }
         }
     }
 }
