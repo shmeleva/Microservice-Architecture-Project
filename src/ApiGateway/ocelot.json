@@ -2,10 +2,34 @@
   "ReRoutes": [
     {
       "UseServiceDiscovery": true,
-      "DownstreamPathTemplate": "/api/v1/geocode/{url}",
+      "DownstreamPathTemplate": "/api/{version}/geocode{everything}",
       "DownstreamScheme": "http",
       "ServiceName": "Geocoding",
-      "UpstreamPathTemplate": "/api/v1/geocode/{url}",
+      "UpstreamPathTemplate": "/api/{version}/geocode{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "ReRoutesCaseSensitive": false,
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "UseServiceDiscovery": true,
+      "DownstreamPathTemplate": "/api/{version}/cars{everything}",
+      "DownstreamScheme": "http",
+      "ServiceName": "Carsharing",
+      "UpstreamPathTemplate": "/api/{version}/cars{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "ReRoutesCaseSensitive": false,
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "UseServiceDiscovery": true,
+      "DownstreamPathTemplate": "/api/{version}/identity{everything}",
+      "DownstreamScheme": "http",
+      "ServiceName": "Identity",
+      "UpstreamPathTemplate": "/api/{version}/identity{everything}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
       "ReRoutesCaseSensitive": false,
       "LoadBalancerOptions": {
@@ -17,7 +41,7 @@
 
     "ServiceDiscoveryProvider": {
       "Type": "Consul",
-      "Host": "host.docker.internal",
+      "Host": "consul",
       "Port": 8500
     }
   }

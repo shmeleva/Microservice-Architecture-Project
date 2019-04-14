@@ -1,5 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
+using Carsharing.Extensions;
 using Carsharing.Services;
+using Consul;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,6 +28,8 @@ namespace Carsharing
         {
             services.AddTransient<IStorageService, StorageService>();
             services.AddTransient<IIdentityService, IdentityService>();
+
+            services.AddSingleton<IConsulClient, ConsulClient>(_ => new ConsulClient(c => c.Address = new Uri("http://consul:8500")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -70,6 +75,8 @@ namespace Carsharing
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseConsulServiceDiscovery();
         }
     }
 }

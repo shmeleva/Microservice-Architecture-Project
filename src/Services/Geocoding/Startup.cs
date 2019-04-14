@@ -38,11 +38,8 @@ namespace Geocoding
             {
                 options.Configuration = "docker:6379";
             });
-            
-            services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
-            {
-                consulConfig.Address = new Uri("http://consul:8500");
-            }));
+
+            services.AddSingleton<IConsulClient, ConsulClient>(_ => new ConsulClient(c => c.Address = new Uri("http://consul:8500")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -79,7 +76,7 @@ namespace Geocoding
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            app.UseConsulServiceDiscovery(lifetime);
+            app.UseConsulServiceDiscovery();
         }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Consul;
+using Identity.Extensions;
 using Identity.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +31,8 @@ namespace Identity
         {
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<IStorageService, MongoDbStorageService>();
+
+            services.AddSingleton<IConsulClient, ConsulClient>(_ => new ConsulClient(c => c.Address = new Uri("http://consul:8500")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -58,6 +62,8 @@ namespace Identity
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseConsulServiceDiscovery();
         }
     }
 }

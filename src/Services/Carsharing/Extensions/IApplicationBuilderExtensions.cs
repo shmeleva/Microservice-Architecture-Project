@@ -6,7 +6,7 @@ using Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Geocoding.Extensions
+namespace Carsharing.Extensions
 {
     public static class IApplicationBuilderExtensions
     {
@@ -14,7 +14,7 @@ namespace Geocoding.Extensions
         {
             var ip = Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
             var port = 80;
-            var name = "Geocoding";
+            var name = "Carsharing";
 
             var serviceRegistration = new AgentServiceRegistration
             {
@@ -22,7 +22,7 @@ namespace Geocoding.Extensions
                 Name = $"{name}",
                 Address = $"{ip}",
                 Port = port,
-                Checks = new []
+                Checks = new[]
                 {
                     new AgentServiceCheck
                     {
