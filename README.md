@@ -89,11 +89,65 @@ Consul is only used to discover service IPs. MongoDB, Redis and Consul itself ar
 
 ### 2. Dynamic Configuration
 
-Consul.
+[`consul-template`](https://github.com/hashicorp/consul-template) daemon is used for dynamic configuration. At this point, only `Carsharing` mircoservice includes support for dynamic configuration.
+
+In order to change a configuration, a file with `Carsharing/appsettings.json` key must be created in `http://localhost:48500/ui/dc1/kv`. This will replace [original service configuration file](/src/Services/Carsharing/appsettings.json).
+
+`consul-template` is started in a Dockerfile and runs alongside with `Carsharing.dll`:
+
+```
+./consul-template -consul-addr "consul:8500" -template "appsettings.tpl:appsettings.json"
+dotnet Carsharing.dll
+```
 
 ### 3. Caching
 
-A sidecar between
+`Geocoding` mircoservice caches the data retrieved from [HERE Geocoder API](https://developer.here.com/documentation/geocoder/topics/what-is.html) in a Redis distributed cache:
+
+```
+services.AddDistributedRedisCache(options =>
+{
+    options.Configuration = "docker:6379";
+});
+```
+
+### 4. Authentication
+
+`Identity` mircoservice stores users in a MongoDB:
+```
+public class User
+{
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; }
+
+    [BsonElement("Username")]
+    public string Username { get; set; }
+
+    [BsonElement("Salt")]
+    public string Salt { get; set; }
+
+    [BsonElement("Hash")]
+    public string Hash { get; set; }
+}
+```
+
+It validates `username`+`password` combinations and issues JWT tokens. `Identity` and `Carsharing` mircoservices share the symmetric security key.
+
+```
+services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(x =>
+    {
+        ...
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ...
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("secret")),
+        };
+    });
+```
 
 #### References
 * [Microsoft – Designing a microservice-oriented application](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/multi-container-microservice-net-applications/microservice-application-design)
