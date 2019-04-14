@@ -21,10 +21,17 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
 
-ENTRYPOINT ["dotnet", "Carsharing.dll"]
+RUN wget https://releases.hashicorp.com/consul-template/0.20.0/consul-template_0.20.0_linux_arm.zip -O consul-template.zip
+RUN unzip consul-template.zip
+RUN touch appsettings.tpl
+RUN echo "{{ key \"Carsharing/appsettings.json\" }}" > appsettings.tpl
 
-#RUN wget https://releases.hashicorp.com/consul-template/0.20.0/consul-#template_0.20.0_linux_arm.zip -O consul-template.zip
-#RUN unzip consul-template.zip
-#RUN touch appsettings.tpl
-#RUN echo "{{ key \"Carsharing/appsettings.json\" }}" > appsettings.tpl
-#RUN ./consul-template -consul-addr "consul:8500" -template "appsettings.tpl:appsettings.json"
+RUN touch start.sh
+RUN echo "./consul-template -consul-addr \"consul:8500\" -template \"appsettings.tpl:appsettings.json\"" >> start.sh
+RUN echo "dotnet Carsharing.dll" >> start.sh
+
+RUN chmod 700 start.sh
+CMD ./start.sh
+
+#ENTRYPOINT ["dotnet", "Carsharing.dll"]
+#CMD ./consul-template -consul-addr "consul:8500" -template "appsettings.tpl:appsettings.json"
