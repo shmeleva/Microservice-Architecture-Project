@@ -1,23 +1,39 @@
 version: '3.4'
 
 services:
+  redis:
+    image: redis:latest
+    ports:
+    - "46379:6379"
+    
+  consul:
+    image: consul:latest
+    ports:
+    - "48500:8500"
+
   carsharing:
     image: ${DOCKER_REGISTRY-}carsharing
     build:
       context: .
       dockerfile: src/Services/Carsharing/Dockerfile
+    ports:
+    - "4001:80"
 
   geocoding:
     image: ${DOCKER_REGISTRY-}geocoding
     build:
       context: .
       dockerfile: src/Services/Geocoding/Dockerfile
+    ports:
+    - "4002:80"      
       
   identity:
     image: ${DOCKER_REGISTRY-}identity
     build:
       context: .
       dockerfile: src/Services/Identity/Dockerfile
+    ports:
+    - "4003:80"  
 
   apigateway:
     image: ${DOCKER_REGISTRY-}apigateway
@@ -25,5 +41,5 @@ services:
       context: .
       dockerfile: src/ApiGateway/Dockerfile
     ports:
-    - "127.0.0.1:4000:80"
+    - "4000:80"
 

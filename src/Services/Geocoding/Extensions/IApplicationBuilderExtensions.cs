@@ -21,18 +21,25 @@ namespace Geocoding.Extensions
         {
             var ip = Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
 
-            var serviceRegistration = new AgentServiceRegistration()
+            var healthCheck = new AgentServiceCheck
+            {
+                DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
+                Interval = TimeSpan.FromSeconds(30),
+                TCP = $"{ip}:80"
+            };
+
+            var serviceRegistration = new AgentServiceRegistration
             {
                 ID = $"Geocoding-{Guid.NewGuid()}",
                 Name = "Geocoding",
                 Address = $"{ip}",
-                Port = 80
+                Port = 80,
+                Checks = new [] { healthCheck },
             };
 
             using (var consulClient = app.ApplicationServices.GetRequiredService<IConsulClient>())
             {
                 consulClient.Agent.ServiceRegister(serviceRegistration).Wait();
-                lifetime.ApplicationStopping.Register(() => consulClient.Agent.ServiceDeregister(serviceRegistration.ID).Wait());
             }
 
             return app;

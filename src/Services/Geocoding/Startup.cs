@@ -36,12 +36,12 @@ namespace Geocoding
 
             services.AddDistributedRedisCache(options =>
             {
-                options.Configuration = "host.docker.internal:6379";
+                options.Configuration = "docker:6379";
             });
             
             services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
             {
-                consulConfig.Address = new Uri("http://host.docker.internal:8500");
+                consulConfig.Address = new Uri("http://consul:8500");
             }));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

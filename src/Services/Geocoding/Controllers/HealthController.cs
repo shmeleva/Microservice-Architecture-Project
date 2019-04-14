@@ -3,9 +3,9 @@
 namespace Geocoding.Controllers
 {
     [Route("api/v1/[controller]")]
-    public class HealthController : Controller
+    public class HealthController : ControllerBase
     {
-        [HttpGet("status")]
+        [HttpGet]
         public IActionResult Status() => Ok();
     }
 }
