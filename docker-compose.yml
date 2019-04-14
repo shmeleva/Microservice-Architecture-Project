@@ -12,24 +12,26 @@ services:
     - "48500:8500"
     
   mongo-carsharing:
-    image: mongo:latest
+    image: mongo
+    container_name: mongo-carsharing
     restart: always
     environment:
     - MONGO_INITDB_DATABASE=carsharing
     ports:
     - 40017:27017
     volumes:
-    - ./Databases/mongo-carsharing.js:/docker-entrypoint-initdb.d/mongo-carsharing.js
+    - ./Databases/Carsharing:/docker-entrypoint-initdb.d
     
   mongo-identity:
-    image: mongo:latest
+    image: mongo
+    container_name: mongo-identity
     restart: always
     environment:
     - MONGO_INITDB_DATABASE=identity
     ports:
     - 41017:27017
     volumes:
-    - ./Databases/mongo-identity.js:/docker-entrypoint-initdb.d/mongo-identity.js    
+    - ./Databases/Identity:/docker-entrypoint-initdb.d 
     
   carsharing:
     image: ${DOCKER_REGISTRY-}carsharing
