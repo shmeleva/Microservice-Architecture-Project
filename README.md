@@ -40,10 +40,14 @@ All methods are available through this API gateway.
 | Method                                 | Description |
 | --------------------------------------- | -------------|
 | <code>GET&nbsp;api/v1/cars/available</code> <br><br> **Query parameters:** <br> `latitude`: `double`, required <br> `longitude`: `double`, required <br> `radius`: `double` *(meters)*, 500 meters by default    | Searches for available cars in the specified area. *Only offers mock functionality, i.e., ignores coordinates and returns all available cars.* |
-| <code>POST&nbsp;api/v1/cars/book</code> | Books a car with the specified `Id`. Accepts JSON. *Not thread-safe.* |
-| <code>POST&nbsp;api/v1/cars/return</code> | Marks a car with the specified `Id` as available and updates its location. Accepts JSON. |
+| <code>POST&nbsp;api/v1/cars/book</code> <br><br> `{ CarId: string }` | Books a car with the specified `Id`. Accepts JSON. <br> *Not thread-safe.* |
+| <code>POST&nbsp;api/v1/cars/return</code> <br><br> `{ CarId: string, Latitude: double, Longitude: double }` | Marks a car with the specified `Id` as available and updates its location. Accepts JSON. |
 
-*Requires JWT authentication.*
+*Requires JWT authentication:*
+```
+Authorization: Bearer <token>
+```
+*Tokens are issued by* `api/v1/identity/jwt`.
 
 #### 3. Geocoding
 
@@ -54,13 +58,34 @@ All methods are available through this API gateway.
 
 Source: [HERE Geocoder API](https://developer.here.com/documentation/geocoder/topics/what-is.html).
 
+#### 4. API Gateway
+
+API gateway [exposes](/src/ApiGateway/ocelot.json) with their original routes, e.g., `api/v1/cars/available` is mapped to `api/v1/cars/available`.
+
 ## II. Aspects
 
 ### 1. Service Discovery
 
-Consul is used for service discovery.
+(1) Services [register](https://learn.hashicorp.com/consul/getting-started/services) themselves in [Consul](https://www.consul.io/) on startup:
+```
+var ip = Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
+var port = 80;
+...
+consulClient.Agent.ServiceRegister(serviceRegistration).Wait();
+```
+(2) Services also [register](https://learn.hashicorp.com/consul/getting-started/checks) their `api/v1/health` methods so that Consul can run health checks.
 
-[Consul](https://www.consul.io/)
+(3) API Gateway is implemented with [Ocelot](https://ocelot.readthedocs.io/en/latest/) that offers a support for [Consul service discovery](https://ocelot.readthedocs.io/en/latest/features/servicediscovery.html):
+
+```
+"ServiceDiscoveryProvider": {
+  "Type": "Consul",
+  "Host": "consul",
+  "Port": 8500
+}
+```
+
+Consul is only used to discover service IPs. MongoDB, Redis and Consul itself are accessed through their container names.
 
 ### 2. Dynamic Configuration
 
