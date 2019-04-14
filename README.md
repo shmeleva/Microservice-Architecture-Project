@@ -2,11 +2,12 @@
 
 | Service                                 | Description |
 | --------------------------------------- | -------------|
-| [Identity](./src/Services/Identity)     | Issues JWT tokens. Stores users in an SQL database. |
-| [Carsharing](./src/Services/Carsharing) | Provides methods for searching, booking and returning cars. Stores cars in an SQL database. Requires JWT authentication. *Does not provide methods for creating or removing cars from the database, i.e., cars simply exist. Does not have any payment mechanism, i.e., cars are free.* |
+| [Identity](./src/Services/Identity)     | Issues JWT tokens. Stores users in an MongoDB database. |
+| [Carsharing](./src/Services/Carsharing) | Provides methods for searching, booking and returning cars. Stores cars in a MongoDB database. Requires JWT authentication. *Does not provide methods for creating or removing cars from the database, i.e., cars simply exist. Does not have any payment mechanism, i.e., cars are free.* |
 | [Geocoding](./src/Services/Geocoding)   | Provides methods for converting an address to coordinates and vice versa. |
 
-*More (= architecture visualization) to be added...*
+![System Architecture](/docs/images/diagram.png)
+
 
 #### References
 * [Microsoft – Designing a microservice-oriented application](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/multi-container-microservice-net-applications/microservice-application-design)
