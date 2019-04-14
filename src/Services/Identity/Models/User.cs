@@ -1,16 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Identity.Models
 {
     public class User
-    { 
-        [Required]
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
+        [BsonElement("Username")]
         public string Username { get; set; }
 
-        [Required]
+        [BsonElement("Salt")]
         public string Salt { get; set; }
 
-        [Required]
+        [BsonElement("Hash")]
         public string Hash { get; set; }
     }
 }

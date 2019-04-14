@@ -10,7 +10,27 @@ services:
     image: consul:latest
     ports:
     - "48500:8500"
-
+    
+  mongo-carsharing:
+    image: mongo:latest
+    restart: always
+    environment:
+    - MONGO_INITDB_DATABASE=carsharing
+    ports:
+    - 40017:27017
+    volumes:
+    - ./Databases/mongo-carsharing.js:/docker-entrypoint-initdb.d/mongo-carsharing.js
+    
+  mongo-identity:
+    image: mongo:latest
+    restart: always
+    environment:
+    - MONGO_INITDB_DATABASE=identity
+    ports:
+    - 41017:27017
+    volumes:
+    - ./Databases/mongo-identity.js:/docker-entrypoint-initdb.d/mongo-identity.js    
+    
   carsharing:
     image: ${DOCKER_REGISTRY-}carsharing
     build:

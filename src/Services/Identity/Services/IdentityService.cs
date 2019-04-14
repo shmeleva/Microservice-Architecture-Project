@@ -39,11 +39,11 @@ namespace Identity.Services
 
         public async Task<string> IssueUserJwtAsync(string username, string password)
         {
-            /*var user = await storageService.FindUserAsync(username);
+            var user = await storageService.FindUserAsync(username);
             if (user == null || Hash(password, user.Salt) != user.Hash)
             {
                 throw new ArgumentException();
-            }*/
+            }
 
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("DV6y28wLptRaLh8XGyTeRlUTBI4biP8e"));
             var tokenHandler = new JwtSecurityTokenHandler();
