@@ -7,10 +7,10 @@ namespace Carsharing.Services
 {
     public interface IStorageService
     {
-        Task<Car> GetCarAsync(Guid guid);
+        Task<Car> FindCarAsync(string id);
 
-        Task<List<Car>> GetAvailableCarsAsync(double latitude, double longitude, double radius);
+        Task<List<Car>> FindAvailableCarsAsync(double latitude, double longitude, double radius);
 
-        Task UpdateCarAsync(Car car);
+        Task UpdateCarAsync(string id, Car car);
     }
 }

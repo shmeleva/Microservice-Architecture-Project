@@ -26,8 +26,7 @@ namespace Carsharing
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IStorageService, StorageService>();
-            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<IStorageService, MongoDbStorageService>();
 
             services.AddSingleton<IConsulClient, ConsulClient>(_ => new ConsulClient(c => c.Address = new Uri("http://consul:8500")));
 

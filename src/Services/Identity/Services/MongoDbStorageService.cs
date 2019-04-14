@@ -25,6 +25,6 @@ namespace Identity.Services
             await users.InsertOneAsync(user);
 
         public async Task<User> FindUserAsync(string username) =>
-            await users.Find<User>(x => x.Username == username).FirstOrDefaultAsync();
+            await users.Find(x => x.Username == username).FirstOrDefaultAsync();
     }
 }

@@ -25,8 +25,8 @@ namespace Geocoding.Controllers
         }
 
 
-        // GET: api/v1/geocode?address={string}
-        [HttpGet]
+        // GET: api/v1/geocode/forward?address={string}
+        [HttpGet("forward")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -62,8 +62,7 @@ namespace Geocoding.Controllers
                 async () => await geocodingService.GetLocationByCoordinatesAsync(latitude.Value, longitude.Value));
         }
 
-        public async Task<IActionResult> GetFromCacheOrFetchAsync
-            (string key, Func<Task<Location>> fetchAsync)
+        public async Task<IActionResult> GetFromCacheOrFetchAsync(string key, Func<Task<Location>> fetchAsync)
         {
             var location = await distributedCache.GetStringAsync(key);
             if (location != null)

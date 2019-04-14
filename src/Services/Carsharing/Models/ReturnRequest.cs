@@ -6,7 +6,7 @@ namespace Carsharing.Models
     public class ReturnRequest
     {
         [Required]
-        public Guid CarId { get; set; }
+        public string CarId { get; set; }
 
         [Required]
         public double Latitude { get; set; }

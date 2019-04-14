@@ -6,6 +6,6 @@ namespace Carsharing.Models
     public class BookRequest
     {
         [Required]
-        public Guid CarId { get; set; }
+        public string CarId { get; set; }
     }
 }

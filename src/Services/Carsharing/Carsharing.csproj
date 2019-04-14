@@ -19,5 +19,4 @@
     <PackageReference Include="Consul" Version="0.7.2.6" />
     <PackageReference Include="MongoDB.Driver" Version="2.8.0" />
   </ItemGroup>
-
 </Project>
