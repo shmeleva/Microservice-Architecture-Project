@@ -1,4 +1,4 @@
-## I. Service Architecture
+## I. System Architecture
 
 | Service                                 | Description |
 | --------------------------------------- | -------------|

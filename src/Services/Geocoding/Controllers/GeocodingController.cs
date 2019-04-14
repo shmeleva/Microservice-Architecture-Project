@@ -62,7 +62,7 @@ namespace Geocoding.Controllers
                 async () => await geocodingService.GetLocationByCoordinatesAsync(latitude.Value, longitude.Value));
         }
 
-        public async Task<IActionResult> GetFromCacheOrFetchAsync(string key, Func<Task<Location>> fetchAsync)
+        private async Task<IActionResult> GetFromCacheOrFetchAsync(string key, Func<Task<Location>> fetchAsync)
         {
             var location = await distributedCache.GetStringAsync(key);
             if (location != null)
