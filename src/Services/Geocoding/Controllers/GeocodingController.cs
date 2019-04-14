@@ -75,6 +75,7 @@ namespace Geocoding.Controllers
                 location = JsonConvert.SerializeObject(await fetchAsync());
                 await distributedCache.SetStringAsync(key, location, new DistributedCacheEntryOptions
                 {
+                    // TODO: Move to config.
                     AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(30),
                 });
                 return Ok(location);

@@ -11,6 +11,8 @@ namespace Geocoding.Services
 {
     public class HereGeocodingService : IGeocodingService
     {
+        // TODO: Move to config.
+        // TODO: Add secrets.
         private readonly string geocodingApiEndpoint = "https://geocoder.api.here.com/6.2/geocode.json";
         private readonly string reverseGeocodingApiEndpoint = "https://reverse.geocoder.api.here.com/6.2/reversegeocode.json";
         private readonly string geocodingApiAppId = "";
