@@ -1,3 +1,23 @@
+## 0. Deployment
+
+For the sake of simplicity, everything exists inside Docker Compose. Run to build and start the system:
+
+```
+docker-compose up --build
+```
+All methods are available through this API gateway.
+
+#### Public IP addresses
+
+##### API Gateway
+`http://localhost:4000`
+
+##### Consul
+`http://localhost:48500`
+
+##### Redis
+`http://localhost:46379`
+
 ## I. System Architecture
 
 | Service                                 | Description |
@@ -12,32 +32,31 @@
 
 | Method                                 | Description |
 | --------------------------------------- | -------------|
-| <code>POST&nbsp;api/{v1&#124;v2}/identity/create</code>     | Creates a user with the specified username and password. Accepts JSON. |
-| <code>GET&nbsp;api/{v1&#124;v2}/identity/jwt</code> <br><br> **Query parameters:** <br> `username`: `string`, required <br> `password`: `string`, required | Issues a JWT for the specified user. |
-
-#### References
-
-* [Make secure .NET Microservices and Web Applications](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/secure-net-microservices-web-applications/)
+| <code>POST&nbsp;api/v1/identity/create</code> <br><br> **Query parameters:** <br> `username`: `string`, required, unique <br> `password`: `string`, required     | Creates a user with the specified username and password. |
+| <code>GET&nbsp;api/v1/identity/jwt</code> <br><br> **Query parameters:** <br> `username`: `string`, required <br> `password`: `string`, required | Issues a JWT for the specified user. |
 
 #### 2. Carsharing
 
 | Method                                 | Description |
 | --------------------------------------- | -------------|
-| <code>GET&nbsp;api/{v1&#124;v2}/carsharing/cars</code> <br><br> **Query parameters:** <br> `latitude`: `double`, required <br> `longitude`: `double`, required <br> `radius`: `double`, required    | Searches for available cars in the specified area. Caches search results. |
-| <code>POST&nbsp;api/{v1&#124;v2}/carsharing/book</code> | Books a car with the specified `Id`. Accepts JSON. |
-| <code>POST&nbsp;api/{v1&#124;v2}/carsharing/return</code> | Marks a car with the specified `Id` as available and updates its location. Accepts JSON. |
+| <code>GET&nbsp;api/v1/cars/available</code> <br><br> **Query parameters:** <br> `latitude`: `double`, required <br> `longitude`: `double`, required <br> `radius`: `double` *(meters)*, 500 meters by default    | Searches for available cars in the specified area. *Only offers mock functionality, i.e., ignores coordinates and returns all available cars.* |
+| <code>POST&nbsp;api/v1/cars/book</code> | Books a car with the specified `Id`. Accepts JSON. *Not thread-safe.* |
+| <code>POST&nbsp;api/v1/cars/return</code> | Marks a car with the specified `Id` as available and updates its location. Accepts JSON. |
 
 #### 3. Geocoding
 
-Stateless.
+| Method                                 | Description |
+| --------------------------------------- | -------------|
+| <code>GET&nbsp;api/v1/geocode/forward</code> <br><br> **Query parameters:** <br> `address`: `string`, required | Returns coordinates of the specified location. Only works for Uusimaa. |
+| <code>GET&nbsp;api/v1/geocode/reverse</code> <br><br> **Query parameters:** <br> `latitude`: `double`, required <br> `longitude`: `double`, required | Returns an address of the specified location. |
 
-*More to be added.*
+Source: [HERE Geocoder API](https://developer.here.com/documentation/geocoder/topics/what-is.html).
 
 ## II. Aspects
 
 ### 1. Service Discovery
 
-Consul.
+Consul is used for service discovery.
 
 [Consul](https://www.consul.io/)
 
@@ -58,3 +77,4 @@ A sidecar between
 * [Pitstop – Garage Management System](https://github.com/EdwinVW/pitstop)
 * [Building Microservices with ASP.NET Core by Kevin Hoffman – Chapter 8. Service Discovery](https://www.oreilly.com/library/view/building-microservices-with/9781491961728/ch08.html)\*
 * [GoogleCloudPlatform – Hipster Shop: Cloud-Native Microservices Demo Application](https://github.com/GoogleCloudPlatform/microservices-demo)
+* [Make secure .NET Microservices and Web Applications](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/secure-net-microservices-web-applications/)
