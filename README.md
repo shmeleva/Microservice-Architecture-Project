@@ -43,6 +43,8 @@ All methods are available through this API gateway.
 | <code>POST&nbsp;api/v1/cars/book</code> | Books a car with the specified `Id`. Accepts JSON. *Not thread-safe.* |
 | <code>POST&nbsp;api/v1/cars/return</code> | Marks a car with the specified `Id` as available and updates its location. Accepts JSON. |
 
+*Requires JWT authentication.*
+
 #### 3. Geocoding
 
 | Method                                 | Description |
