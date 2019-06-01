@@ -107,7 +107,7 @@ dotnet Carsharing.dll
 ```
 services.AddDistributedRedisCache(options =>
 {
-    options.Configuration = "docker:6379";
+    options.Configuration = "redis:6379";
 });
 ```
 
