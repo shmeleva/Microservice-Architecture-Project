@@ -1,3 +1,5 @@
+👩‍🏭 **This is a WIP version!**
+
 ## 0. Deployment
 
 For the sake of simplicity, everything exists inside Docker Compose. Run to build and start the system:
